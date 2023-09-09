@@ -8,7 +8,7 @@ window.onload = function() {
 }
 
 function setGame() {
-    board = [    
+    board = [
     [0,0,0,0],
     [0,0,0,0],
     [0,0,0,0],
