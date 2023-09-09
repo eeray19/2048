@@ -8,22 +8,23 @@ window.onload = function() {
 }
 
 function setGame() {
-    board = [
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0]]
+    board = [    
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]]
 
+    const tileContainer = document.getElementById("tile-container");
     for (let r = 0; r < rows; r++){
         for(let c = 0; c < cols; c++){
             //create a div for each tile
             let tile = document.createElement("div");
+            tile.style.marginRight = "0";
             //set a tile id 
             tile.id = r.toString() + "-" + c.toString();
-            console.log(tile.id)
             let num = board[r][c];
             updateTile(tile, num);
-            document.getElementById("board").append(tile); 
+            tileContainer.appendChild(tile); //board div'ine tile div'leri eklendi
         }
     }
     setTwo(); //at the beginning, put two 2s
@@ -46,12 +47,12 @@ function setTwo(){
         return;
     }
 
-    let found = false; 
-    while(!found) { 
+    let found = false; //did we find an empty place in the board?
+    while(!found) { //bulunamadığı sürece aramaya devam eder
         let r = Math.floor(Math.random() * rows);
         let c = Math.floor(Math.random() * cols);
 
-        
+        //we found a completely random coordinate in the board, now use it
         if(board[r][c] == 0) {
             board[r][c] = 2;
             let tile = document.getElementById(r.toString() + "-" + c.toString());
@@ -105,6 +106,7 @@ function filterZero(row){
     return row.filter(num => num != 0); //eliminate 0s
 }
 
+
 function slide(row) {
     //[0,2,2,2]
     row = filterZero(row); //[2,2,2]
@@ -132,10 +134,10 @@ function slide(row) {
 //clear 0s again
 //put 0s back to empty slots
 function slideLeft() {
-    for (let r = 0; r < rows; r++) { 
-        let row = board[r]; 
-        row = slide(row); 
-        board[r] = row; 
+    for (let r = 0; r < rows; r++) { //iterate over each row 
+        let row = board[r]; //boarddaki o row'u değişkene ata, altta fonksiyona parametre verebilme amacıyla
+        row = slide(row); //row'u kaydırılmış hali ile update'le
+        board[r] = row; //assign row back to its place
 
 
         //update HTML board look
