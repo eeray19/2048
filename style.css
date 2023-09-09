@@ -1,7 +1,16 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
     text-align:center;
+    background-color: rgb(0, 0, 0);
 
+}
+
+h1 {
+    color:#ece0ca
+}
+
+h2 {
+    color:#ece0ca
 }
 
 hr {
