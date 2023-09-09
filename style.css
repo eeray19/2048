@@ -97,3 +97,26 @@ hr {
     background-color: #ff2020;
     color: white;
 }
+
+#start-over-button-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+}
+
+#start-over-button {
+    background-color: #8f7a66; 
+    color: #f9f6f2;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+#start-over-button:hover {
+    background-color: #7a6652;
+}
