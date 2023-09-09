@@ -5,6 +5,14 @@ var cols = 4;
 
 window.onload = function() {
     setGame();
+    document.getElementById("start-over-button").addEventListener("click", function () {
+        // Hide the game over message and button
+        document.getElementById("game-over").style.display = "none";
+        document.getElementById("start-over-button").style.display = "none";
+        score = 0;
+        document.getElementById("score").innerText = score;
+        setGame();
+    });
 }
 
 function setGame() {
@@ -15,6 +23,10 @@ function setGame() {
         [0,0,0,0]]
 
     const tileContainer = document.getElementById("tile-container");
+    while (tileContainer.firstChild) {
+        tileContainer.removeChild(tileContainer.firstChild);
+    }
+    
     for (let r = 0; r < rows; r++){
         for(let c = 0; c < cols; c++){
             //create a div for each tile
@@ -42,17 +54,37 @@ function isFull(){ //if the board is full, it returns true
     return true;
 }
 
+function isGameOver() {
+    // Check if there are any available moves left
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (c < cols - 1 && board[r][c] === board[r][c + 1]) {
+                return false; // Horizontal merge available
+            }
+            if (r < rows - 1 && board[r][c] === board[r + 1][c]) {
+                return false; // Vertical merge available
+            }
+        }
+    }
+    return true; // No available moves left
+}
+
 function setTwo(){
-    if(isFull()){ //no empty place to put a 2
+    if(isFull()){ 
+        //no empty place to put a 2
+        if (isGameOver()) {
+            // Display game over message and show the start over button
+            document.getElementById("game-over").style.display = "block";
+            document.getElementById("start-over-button").style.display = "block";
+        }
         return;
     }
 
-    let found = false; //did we find an empty place in the board?
-    while(!found) { //bulunamadığı sürece aramaya devam eder
+    let found = false; 
+    while(!found) { 
         let r = Math.floor(Math.random() * rows);
         let c = Math.floor(Math.random() * cols);
 
-        //we found a completely random coordinate in the board, now use it
         if(board[r][c] == 0) {
             board[r][c] = 2;
             let tile = document.getElementById(r.toString() + "-" + c.toString());
@@ -80,8 +112,7 @@ function updateTile(tile, num){
         }
     }
 }
-//keyup = press 1 at a time, tuşu bıraktığın an çalışır
-//keydown = constant press, tuşa basılı tuttuğun sürece çalışır
+
 document.addEventListener('keyup', (e) => {
     if(e.code == "ArrowLeft") {
         slideLeft();
@@ -134,10 +165,10 @@ function slide(row) {
 //clear 0s again
 //put 0s back to empty slots
 function slideLeft() {
-    for (let r = 0; r < rows; r++) { //iterate over each row 
-        let row = board[r]; //boarddaki o row'u değişkene ata, altta fonksiyona parametre verebilme amacıyla
-        row = slide(row); //row'u kaydırılmış hali ile update'le
-        board[r] = row; //assign row back to its place
+    for (let r = 0; r < rows; r++) { 
+        let row = board[r]; 
+        row = slide(row); 
+        board[r] = row; 
 
 
         //update HTML board look
